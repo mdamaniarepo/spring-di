@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<bean id="beanA" class="com.musings.di.BeanA" name="_beanA _bean1">
+		<constructor-arg>
+			<value>someValue A</value>
+		</constructor-arg>
+	</bean>
+	<bean id="beanAA" class="com.musings.di.BeanA">
+		<constructor-arg value="someValue AA"></constructor-arg>
+	</bean>
+	
+	<bean id="beanB" class="com.musings.di.BeanB">
+		<constructor-arg value="Mayank Damania" type="java.lang.String"></constructor-arg>
+	</bean>
+	
+	<bean id="beanBInt" class="com.musings.di.BeanB">
+		<constructor-arg value="23" type="java.lang.Integer"></constructor-arg>
+	</bean>
+	
+	<bean id="beanBString" class="com.musings.di.BeanB">
+		<constructor-arg value="Damania" type="java.lang.String" index="1"></constructor-arg>
+		<constructor-arg value="Mayank" type="java.lang.String" index="0"></constructor-arg>
+	</bean>
+	
+	<bean id="beanC" class="com.musings.di.BeanC">
+		<property name="name" value="Mayank Damania"/>
+		<property name="beanB" ref="beanBString"/>
+	</bean>
+	
+	<bean id="beanD" class="com.musings.di.BeanD">
+		<constructor-arg>
+			<bean class="java.util.Calendar" factory-method="getInstance"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="calendar" class="java.util.Calendar" factory-method="getInstance"/>
+	
+	<bean id="beanDD" class="com.musings.di.BeanD" c:calendar-ref="calendar"/>
+	
+	<bean id="singleton" class="com.musings.di.scopes.Singleton">
+		<property name="prototypeBean" ref="prototype"></property>
+	</bean>
+	
+	<bean id="prototype" class="com.musings.di.scopes.Prototype" scope="prototype"/>
+	
+	<bean id="applicationContextAwareTest" class="com.musings.di.scopes.ApplicationContextAwareTest"/>
+	
+	<bean id="methodInjectionTest" class="com.musings.di.scopes.MethodInjectionTest">
+		<lookup-method bean="prototype" name="createPrototypeBean"/>
+	</bean>
+	
+	<util:set id="mySet">
+		<value>Apple</value>
+		<value>Banana</value>
+		<value>Mango</value>
+	</util:set>
+	
+	<util:properties id="myProps">
+		<prop key="prop.a">Adam</prop>
+		<prop key="prop.b">Brendan</prop>
+		<prop key="prop.c">Charles</prop>
+	</util:properties>
+	
+	<bean id="simpleCollection" class="com.musings.di.collections.CollectionBean">
+		<property name="list">
+			<list>
+				<value>Ant</value>
+				<value>Bat</value>
+				<value>Caterpillar</value>
+			</list>
+		</property>
+		
+		<property name="set" ref="mySet"/>
+		
+		<property name="map">
+			<map>
+				<entry key="a" value="Apple"/>
+				<entry key="b" value="ball"/>
+				<entry key="c" value="cat"/>
+			</map>
+		</property>
+		
+		<property name="properties" ref="myProps"/>
+	</bean>
+
+</beans>
